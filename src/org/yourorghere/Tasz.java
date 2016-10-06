@@ -82,6 +82,22 @@ public class Tasz implements GLEventListener {
         gl.glLoadIdentity();
     }
 
+    public void DisplayTriangleFan(float r, float xsr, float ysr, GL gl){
+        
+       
+           float x,y,kat;
+        gl.glBegin(GL.GL_TRIANGLE_FAN);
+        gl.glVertex3f(xsr,ysr,-6.0f); //œrodek
+        for(kat = 0.0f; kat < (2.0f*Math.PI);
+        kat+=(Math.PI/32.0f))
+        {
+        x = r*(float)Math.sin(kat)+xsr;
+        y = r*(float)Math.cos(kat)+ysr;
+        gl.glVertex3f(x, y, -6.0f); //kolejne punkty
+        }
+        gl.glEnd();
+        
+    }
     public void display(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
@@ -89,18 +105,9 @@ public class Tasz implements GLEventListener {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         // Reset the current matrix to the "identity"
         gl.glLoadIdentity();
-
-        float x,y,kat;
-        gl.glBegin(GL.GL_TRIANGLE_FAN);
-        gl.glVertex3f(0.0f,0.0f,-6.0f); //œrodek
-        for(kat = 0.0f; kat < (2.0f*Math.PI);
-        kat+=(Math.PI/32.0f))
-        {
-        x = 1.0f*(float)Math.sin(kat);
-        y = 1.0f*(float)Math.cos(kat);
-        gl.glVertex3f(x, y, -6.0f); //kolejne punkty
-        }
-        gl.glEnd();
+                
+        DisplayTriangleFan(1.0f , 0.0f , 0.0f, gl);
+     
         // Flush all drawing operations to the graphics card
         gl.glFlush();
     }
