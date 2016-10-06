@@ -10,11 +10,10 @@ import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
-
-
 /**
  * Tasz.java <BR>
- * author: Brian Paul (converted to Java by Ron Cemer and Sven Goethel) <P>
+ * author: Brian Paul (converted to Java by Ron Cemer and Sven Goethel)
+ * <P>
  *
  * This version is equal to Brian Paul's version 1.2 1999/10/21
  */
@@ -70,7 +69,7 @@ public class Tasz implements GLEventListener {
         GLU glu = new GLU();
 
         if (height <= 0) { // avoid a divide by zero error!
-        
+
             height = 1;
         }
         final float h = (float) width / (float) height;
@@ -82,22 +81,21 @@ public class Tasz implements GLEventListener {
         gl.glLoadIdentity();
     }
 
-    public void DisplayTriangleFan(float r, float xsr, float ysr, GL gl){
-        
-       
-           float x,y,kat;
+    public void DisplayTriangleFan(float r, float xsr, float ysr, GL gl) {
+
+        float x, y, kat;
         gl.glBegin(GL.GL_TRIANGLE_FAN);
-        gl.glVertex3f(xsr,ysr,-6.0f); //œrodek
-        for(kat = 0.0f; kat < (2.0f*Math.PI);
-        kat+=(Math.PI/32.0f))
-        {
-        x = r*(float)Math.sin(kat)+xsr;
-        y = r*(float)Math.cos(kat)+ysr;
-        gl.glVertex3f(x, y, -6.0f); //kolejne punkty
+        gl.glVertex3f(xsr, ysr, -6.0f); //?rodek
+        for (kat = 0.0f; kat < (2.0f * Math.PI);
+                kat += (Math.PI / 32.0f)) {
+            x = r * (float) Math.sin(kat) + xsr;
+            y = r * (float) Math.cos(kat) + ysr;
+            gl.glVertex3f(x, y, -6.0f); //kolejne punkty
         }
         gl.glEnd();
-        
+
     }
+
     public void display(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
@@ -105,9 +103,9 @@ public class Tasz implements GLEventListener {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         // Reset the current matrix to the "identity"
         gl.glLoadIdentity();
-                
-        DisplayTriangleFan(1.0f , 0.0f , 0.0f, gl);
-     
+
+        DisplayTriangleFan(1.0f, 1.0f, 1.0f, gl);
+
         // Flush all drawing operations to the graphics card
         gl.glFlush();
     }
@@ -115,4 +113,3 @@ public class Tasz implements GLEventListener {
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
     }
 }
-
