@@ -103,46 +103,42 @@ System.exit(0);
  gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f); //rotacja wokó³ osi Y
  //Tu piszemy kod tworz¹cy obiekty 3D
  // Flush all drawing operations to the graphics card
- gl.glBegin(GL.GL_QUADS);
-//œciana przednia
+ gl.glBegin(GL.GL_TRIANGLES);
+//œciana przednia /czer
 gl.glColor3f(1.0f,0.0f,0.0f);
 gl.glVertex3f(-1.0f,-1.0f,1.0f);
 gl.glVertex3f(1.0f,-1.0f,1.0f);
-gl.glVertex3f(1.0f,1.0f,1.0f);
-gl.glVertex3f(-1.0f,1.0f,1.0f);
-//sciana tylnia
+gl.glVertex3f(0.0f,1.0f,0.0f);
+
+//sciana tylnia /ziel
 gl.glColor3f(0.0f,1.0f,0.0f);
-gl.glVertex3f(-1.0f,1.0f,-1.0f);
-gl.glVertex3f(1.0f,1.0f,-1.0f);
-gl.glVertex3f(1.0f,-1.0f,-1.0f);
 gl.glVertex3f(-1.0f,-1.0f,-1.0f);
-//œciana lewa
+gl.glVertex3f(0.0f,1.0f,0.0f);
+gl.glVertex3f(1.0f,-1.0f,-1.0f);
+
+//œciana lewa /nieb
 gl.glColor3f(0.0f,0.0f,1.0f);
 gl.glVertex3f(-1.0f,-1.0f,-1.0f);
 gl.glVertex3f(-1.0f,-1.0f,1.0f);
-gl.glVertex3f(-1.0f,1.0f,1.0f);
-gl.glVertex3f(-1.0f,1.0f,-1.0f);
-//œciana prawa
+gl.glVertex3f(0.0f,1.0f,0.0f); //gorny
+
+//œciana prawa /zolt
 gl.glColor3f(1.0f,1.0f,0.0f);
-gl.glVertex3f(1.0f,1.0f,-1.0f);
-gl.glVertex3f(1.0f,1.0f,1.0f);
 gl.glVertex3f(1.0f,-1.0f,1.0f);
 gl.glVertex3f(1.0f,-1.0f,-1.0f);
+gl.glVertex3f(0.0f,1.0f,0.0f);
+
+gl.glEnd();
+
+
+
+ gl.glBegin(GL.GL_QUADS);
 //œciana dolna
 gl.glColor3f(1.0f,0.0f,1.0f);
 gl.glVertex3f(-1.0f,-1.0f,1.0f);
 gl.glVertex3f(-1.0f,-1.0f,-1.0f);
 gl.glVertex3f(1.0f,-1.0f,-1.0f);
 gl.glVertex3f(1.0f,-1.0f,1.0f);
-//œciana gorna
-gl.glColor3f(1.0f,0.5f,0.5f);
-gl.glVertex3f(-1.0f,1.0f,1.0f);
-gl.glVertex3f(1.0f,1.0f,1.0f);
-gl.glVertex3f(1.0f,1.0f,-1.0f);
-gl.glVertex3f(-1.0f,1.0f,-1.0f);
-
-
-
 gl.glEnd();
  gl.glFlush();
  }
