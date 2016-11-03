@@ -26,14 +26,14 @@ public class Tasz implements GLEventListener {
     static float ambientLight[] = {0.3f, 0.3f, 0.3f, 1.0f};//swiat³o otaczaj¹ce
     static float diffuseLight[] = {0.7f, 0.7f, 0.7f, 1.0f};//œwiat³o rozproszone
     static float specular[] = {1.0f, 1.0f, 1.0f, 1.0f}; //œwiat³o odbite
-    static float lightPos[] = {0.0f, 150.0f, 150.0f, 1.0f};//pozycja œwiat³a
+    static float lightPos[] = {0.0f, 150.0f, 150.0f, 0.0f};//pozycja œwiat³a
 
     public static void main(String[] args) {
         Frame frame = new Frame("Simple JOGL Application");
         GLCanvas canvas = new GLCanvas();
         canvas.addGLEventListener(new Tasz());
         frame.add(canvas);
-        frame.setSize(640, 480);
+        frame.setSize(1024, 748);
         final Animator animator = new Animator(canvas);
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -187,6 +187,8 @@ public class Tasz implements GLEventListener {
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, diffuseLight, 0); //?wiat³o rozproszone
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, specular, 0); //?wiat³o odbite
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, lightPos, 0); //pozycja ?wiat³a
+        
+        
 
         // Clear the drawing area
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
@@ -207,7 +209,7 @@ public class Tasz implements GLEventListener {
                 kat += (Math.PI / 32.0f)) {
             x = 1.0f * (float) Math.sin(kat);
             y = 1.0f * (float) Math.cos(kat);
-            gl.glNormal3f(x,y,0.0f);
+            gl.glNormal3f(x, y, 0.0f);
             gl.glVertex3f(x, y, 0.0f); //kolejne punkty
         }
         gl.glEnd();
@@ -220,7 +222,7 @@ public class Tasz implements GLEventListener {
                 kat -= (Math.PI / 32.0f)) {
             x = 1.0f * (float) Math.sin(kat);
             y = 1.0f * (float) Math.cos(kat);
-           gl.glNormal3f(x,y,0.0f);
+            gl.glNormal3f(x, y, 0.0f);
             gl.glVertex3f(x, y, 2.0f); //kolejne punkty
         }
         gl.glEnd();
@@ -232,12 +234,77 @@ public class Tasz implements GLEventListener {
                 kat3 -= (Math.PI / 32.0f)) {
             x = 1.0f * (float) Math.sin(kat3);
             y = 1.0f * (float) Math.cos(kat3);
-            gl.glNormal3f(x,y,0.0f);
+            gl.glNormal3f(x, y, 0.0f);
 
             gl.glVertex3f(x, y, 2.0f);
             gl.glVertex3f(x, y, 0.0f);
         }
         gl.glEnd();
+        /**
+         * **trapez**
+         */
+
+        gl.glBegin(GL.GL_TRIANGLES);
+//?ciana przednia 
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        float[] scianka1 = {-1.0f, -1.0f, 1.0f, //wpó?rz?dne pierwszego punktu
+            1.0f, -1.0f, 1.0f, //wspó?rz?dne drugiego punktu
+            0.0f, 1.0f, 0.0f}; //wspó?rz?dne trzeciego punktu
+        float[] normalna1 = WyznaczNormalna(scianka1, 0, 3, 6);
+        gl.glNormal3fv(normalna1, 0);
+        gl.glVertex3fv(scianka1, 0); //wspó?rz?dne 1-go punktu zaczynaj? si? od indeksu 0
+        gl.glVertex3fv(scianka1, 3); //wspó?rz?dne 2-go punktu zaczynaj? si? od indeksu 3
+        gl.glVertex3fv(scianka1, 6); //wspó?rz?dne 3-go punktu zaczynaj? si? od indeksu 6
+        gl.glEnd();
+        gl.glBegin(GL.GL_TRIANGLES);
+//sciana tylnia 
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        float[] scianka2 = {-1.0f, -1.0f, -1.0f, //wpó?rz?dne pierwszego punktu
+            0.0f, 1.0f, 0.0f, //wspó?rz?dne drugiego punktu
+            1.0f, -1.0f, -1.0f}; //wspó?rz?dne trzeciego punktu
+        float[] normalna2 = WyznaczNormalna(scianka2, 0, 3, 6);
+        gl.glNormal3fv(normalna2, 0);
+        gl.glVertex3fv(scianka2, 0); //wspó?rz?dne 1-go punktu zaczynaj? si? od indeksu 0
+        gl.glVertex3fv(scianka2, 3); //wspó?rz?dne 2-go punktu zaczynaj? si? od indeksu 3
+        gl.glVertex3fv(scianka2, 6); //wspó?rz?dne 3-go punktu zaczynaj? si? od indeksu 6
+        gl.glEnd();
+
+        gl.glBegin(GL.GL_TRIANGLES);
+//?ciana lewa 
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        float[] scianka3 = {-1.0f, -1.0f, -1.0f, //wpó?rz?dne pierwszego punktu
+            -1.0f, -1.0f, 1.0f, //wspó?rz?dne drugiego punktu
+            0.0f, 1.0f, 0.0f}; //wspó?rz?dne trzeciego punktu
+        float[] normalna3 = WyznaczNormalna(scianka3, 0, 3, 6);
+        gl.glNormal3fv(normalna3, 0);
+        gl.glVertex3fv(scianka3, 0); //wspó?rz?dne 1-go punktu zaczynaj? si? od indeksu 0
+        gl.glVertex3fv(scianka3, 3); //wspó?rz?dne 2-go punktu zaczynaj? si? od indeksu 3
+        gl.glVertex3fv(scianka3, 6); //wspó?rz?dne 3-go punktu zaczynaj? si? od indeksu 6
+        gl.glEnd();
+
+        gl.glBegin(GL.GL_TRIANGLES);
+//?ciana prawa 
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        float[] scianka4 = {1.0f, -1.0f, 1.0f, //wpó?rz?dne pierwszego punktu
+            1.0f, -1.0f, -1.0f, //wspó?rz?dne drugiego punktu
+            0.0f, 1.0f, 0.0f}; //wspó?rz?dne trzeciego punktu
+        float[] normalna4 = WyznaczNormalna(scianka4, 0, 3, 6);
+        gl.glNormal3fv(normalna4, 0);
+        gl.glVertex3fv(scianka4, 0); //wspó?rz?dne 1-go punktu zaczynaj? si? od indeksu 0
+        gl.glVertex3fv(scianka4, 3); //wspó?rz?dne 2-go punktu zaczynaj? si? od indeksu 3
+        gl.glVertex3fv(scianka4, 6); //wspó?rz?dne 3-go punktu zaczynaj? si? od indeksu 6
+        gl.glEnd();
+
+        gl.glBegin(GL.GL_QUADS);
+//?ciana dolna
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        gl.glNormal3f(0.0f, 1.0f, 0.0f);
+        gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+        gl.glVertex3f(-1.0f, -1.0f, -1.0f);
+        gl.glVertex3f(1.0f, -1.0f, -1.0f);
+        gl.glVertex3f(1.0f, -1.0f, 1.0f);
+        gl.glEnd();
+
         gl.glFlush();
     }
 
