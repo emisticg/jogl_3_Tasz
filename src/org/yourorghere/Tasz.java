@@ -5,6 +5,7 @@ import java.awt.Frame;
 import java.awt.event.*;
 import javax.media.opengl.GL;
 import static javax.media.opengl.GL.GL_FRONT;
+import static javax.media.opengl.GL.GL_MODELVIEW;
 import static javax.media.opengl.GL.GL_SHININESS;
 import static javax.media.opengl.GL.GL_SPECULAR;
 import javax.media.opengl.GLAutoDrawable;
@@ -137,6 +138,7 @@ public class Tasz implements GLEventListener {
         float specref[] = {1.0f, 1.0f, 1.0f, 1.0f}; //parametry odblaskowoœci
         gl.glMaterialfv(GL_FRONT, GL_SPECULAR, specref, 0);
         gl.glMateriali(GL_FRONT, GL_SHININESS, 128);
+        gl.glEnable(GL.GL_DEPTH_TEST);
     }
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width,
@@ -187,8 +189,6 @@ public class Tasz implements GLEventListener {
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, diffuseLight, 0); //?wiat³o rozproszone
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, specular, 0); //?wiat³o odbite
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, lightPos, 0); //pozycja ?wiat³a
-        
-        
 
         // Clear the drawing area
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
@@ -199,116 +199,105 @@ public class Tasz implements GLEventListener {
         gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f); //rotacja wokó? osi Y
         //Tu piszemy kod tworz?cy obiekty 3D
         // Flush all drawing operations to the graphics card
-
-        //ko?o
-        float x, y, kat, kat3;
-        gl.glBegin(GL.GL_TRIANGLE_FAN);
-        gl.glColor3f(1.0f, 1.0f, 0.0f);
-        gl.glVertex3f(0.0f, 0.0f, 0.0f); //?rodek
-        for (kat = 0.0f; kat < (2.0f * Math.PI);
-                kat += (Math.PI / 32.0f)) {
-            x = 1.0f * (float) Math.sin(kat);
-            y = 1.0f * (float) Math.cos(kat);
-            gl.glNormal3f(x, y, 0.0f);
-            gl.glVertex3f(x, y, 0.0f); //kolejne punkty
-        }
-        gl.glEnd();
-
-        //kolo2
-        gl.glBegin(GL.GL_TRIANGLE_FAN);
-        gl.glColor3f(1.0f, 1.0f, 1.0f);
-        gl.glVertex3f(0.0f, 0.0f, 2.0f); //?rodek
-        for (kat = (float) (2.0f * Math.PI); kat > 0.0f;
-                kat -= (Math.PI / 32.0f)) {
-            x = 1.0f * (float) Math.sin(kat);
-            y = 1.0f * (float) Math.cos(kat);
-            gl.glNormal3f(x, y, 0.0f);
-            gl.glVertex3f(x, y, 2.0f); //kolejne punkty
-        }
-        gl.glEnd();
-
-        //walec
-        gl.glBegin(GL.GL_QUAD_STRIP);
-        gl.glColor3f(1.0f, 0.0f, 0.0f);
-        for (kat3 = (float) (2.0f * Math.PI); kat3 > 0.0f;
-                kat3 -= (Math.PI / 32.0f)) {
-            x = 1.0f * (float) Math.sin(kat3);
-            y = 1.0f * (float) Math.cos(kat3);
-            gl.glNormal3f(x, y, 0.0f);
-
-            gl.glVertex3f(x, y, 2.0f);
-            gl.glVertex3f(x, y, 0.0f);
-        }
-        gl.glEnd();
-        /**
-         * **trapez**
-         */
-
-        gl.glBegin(GL.GL_TRIANGLES);
-//?ciana przednia 
-        gl.glColor3f(1.0f, 0.0f, 0.0f);
-        float[] scianka1 = {-1.0f, -1.0f, 1.0f, //wpó?rz?dne pierwszego punktu
-            1.0f, -1.0f, 1.0f, //wspó?rz?dne drugiego punktu
-            0.0f, 1.0f, 0.0f}; //wspó?rz?dne trzeciego punktu
-        float[] normalna1 = WyznaczNormalna(scianka1, 0, 3, 6);
-        gl.glNormal3fv(normalna1, 0);
-        gl.glVertex3fv(scianka1, 0); //wspó?rz?dne 1-go punktu zaczynaj? si? od indeksu 0
-        gl.glVertex3fv(scianka1, 3); //wspó?rz?dne 2-go punktu zaczynaj? si? od indeksu 3
-        gl.glVertex3fv(scianka1, 6); //wspó?rz?dne 3-go punktu zaczynaj? si? od indeksu 6
-        gl.glEnd();
-        gl.glBegin(GL.GL_TRIANGLES);
-//sciana tylnia 
-        gl.glColor3f(1.0f, 0.0f, 0.0f);
-        float[] scianka2 = {-1.0f, -1.0f, -1.0f, //wpó?rz?dne pierwszego punktu
-            0.0f, 1.0f, 0.0f, //wspó?rz?dne drugiego punktu
-            1.0f, -1.0f, -1.0f}; //wspó?rz?dne trzeciego punktu
-        float[] normalna2 = WyznaczNormalna(scianka2, 0, 3, 6);
-        gl.glNormal3fv(normalna2, 0);
-        gl.glVertex3fv(scianka2, 0); //wspó?rz?dne 1-go punktu zaczynaj? si? od indeksu 0
-        gl.glVertex3fv(scianka2, 3); //wspó?rz?dne 2-go punktu zaczynaj? si? od indeksu 3
-        gl.glVertex3fv(scianka2, 6); //wspó?rz?dne 3-go punktu zaczynaj? si? od indeksu 6
-        gl.glEnd();
-
-        gl.glBegin(GL.GL_TRIANGLES);
-//?ciana lewa 
-        gl.glColor3f(1.0f, 0.0f, 0.0f);
-        float[] scianka3 = {-1.0f, -1.0f, -1.0f, //wpó?rz?dne pierwszego punktu
-            -1.0f, -1.0f, 1.0f, //wspó?rz?dne drugiego punktu
-            0.0f, 1.0f, 0.0f}; //wspó?rz?dne trzeciego punktu
-        float[] normalna3 = WyznaczNormalna(scianka3, 0, 3, 6);
-        gl.glNormal3fv(normalna3, 0);
-        gl.glVertex3fv(scianka3, 0); //wspó?rz?dne 1-go punktu zaczynaj? si? od indeksu 0
-        gl.glVertex3fv(scianka3, 3); //wspó?rz?dne 2-go punktu zaczynaj? si? od indeksu 3
-        gl.glVertex3fv(scianka3, 6); //wspó?rz?dne 3-go punktu zaczynaj? si? od indeksu 6
-        gl.glEnd();
-
-        gl.glBegin(GL.GL_TRIANGLES);
-//?ciana prawa 
-        gl.glColor3f(1.0f, 0.0f, 0.0f);
-        float[] scianka4 = {1.0f, -1.0f, 1.0f, //wpó?rz?dne pierwszego punktu
-            1.0f, -1.0f, -1.0f, //wspó?rz?dne drugiego punktu
-            0.0f, 1.0f, 0.0f}; //wspó?rz?dne trzeciego punktu
-        float[] normalna4 = WyznaczNormalna(scianka4, 0, 3, 6);
-        gl.glNormal3fv(normalna4, 0);
-        gl.glVertex3fv(scianka4, 0); //wspó?rz?dne 1-go punktu zaczynaj? si? od indeksu 0
-        gl.glVertex3fv(scianka4, 3); //wspó?rz?dne 2-go punktu zaczynaj? si? od indeksu 3
-        gl.glVertex3fv(scianka4, 6); //wspó?rz?dne 3-go punktu zaczynaj? si? od indeksu 6
-        gl.glEnd();
-
-        gl.glBegin(GL.GL_QUADS);
-//?ciana dolna
-        gl.glColor3f(1.0f, 0.0f, 0.0f);
-        gl.glNormal3f(0.0f, 1.0f, 0.0f);
-        gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-        gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-        gl.glVertex3f(1.0f, -1.0f, -1.0f);
-        gl.glVertex3f(1.0f, -1.0f, 1.0f);
-        gl.glEnd();
+        
+            
+            
+        
+            gl.glTranslatef(0.0f, 0.0f, -1.0f);
+            gl.glScalef(0.7f, 0.7f, 0.5f);
+            gl.glColor3f(0.0f, 0.4f, 0.1f);
+            
+        stozek(gl);
+        
+            gl.glTranslatef(0.0f, 0.0f, -1.1f);
+            gl.glScalef(0.7f, 0.7f, 0.5f);
+            gl.glColor3f(0.0f, 0.4f, 0.1f);
+            
+        stozek(gl);
+        
+            gl.glTranslatef(0.0f, 0.0f, -1.4f);
+            gl.glScalef(0.5f, 0.5f, 0.5f);
+            gl.glColor3f(0.0f, 0.4f, 0.1f);
+            
+        stozek(gl);
+            
+            gl.glTranslatef(0.0f, 0.0f, 13.0f);
+            gl.glColor3f(0.65f, 0.4f, 0.0f);
+            gl.glScalef(2.9f, 2.9f, 6.5f);
+        walec(gl);
+           
 
         gl.glFlush();
     }
 
-    public void displayChanged(GLAutoDrawable drawable, boolean modeChanged,
-            boolean deviceChanged) {
+    void walec(GL gl) {
+//wywo³ujemy automatyczne normalizowanie normalnych
+//bo operacja skalowania je zniekszta³ci
+        gl.glEnable(GL.GL_NORMALIZE);
+        float x, y, kat;
+
+        gl.glBegin(GL.GL_QUAD_STRIP);
+
+        for (kat = 0.0f; kat < (2.0f * Math.PI); kat += (Math.PI / 32.0f)) {
+            x = 0.5f * (float) Math.sin(kat);
+            y = 0.5f * (float) Math.cos(kat);
+            gl.glNormal3f((float) Math.sin(kat), (float) Math.cos(kat), 0.0f);
+            gl.glVertex3f(x, y, -1.0f);
+            gl.glVertex3f(x, y, 0.0f);
+        }
+        gl.glEnd();
+        gl.glNormal3f(0.0f, 0.0f, -1.0f);
+        x = y = kat = 0.0f;
+        gl.glBegin(GL.GL_TRIANGLE_FAN);
+
+        gl.glVertex3f(0.0f, 0.0f, -1.0f); //srodek kola
+        for (kat = 0.0f; kat < (2.0f * Math.PI); kat += (Math.PI / 32.0f)) {
+            x = 0.5f * (float) Math.sin(kat);
+            y = 0.5f * (float) Math.cos(kat);
+            gl.glVertex3f(x, y, -1.0f);
+        }
+        gl.glEnd();
+        gl.glNormal3f(0.0f, 0.0f, 1.0f);
+        x = y = kat = 0.0f;
+        gl.glBegin(GL.GL_TRIANGLE_FAN);
+
+        gl.glVertex3f(0.0f, 0.0f, 0.0f); //srodek kola
+        for (kat = 2.0f * (float) Math.PI; kat > 0.0f; kat -= (Math.PI / 32.0f)) {
+            x = 0.5f * (float) Math.sin(kat);
+            y = 0.5f * (float) Math.cos(kat);
+            gl.glVertex3f(x, y, 0.0f);
+        }
+        gl.glEnd();
+    }
+
+    void stozek(GL gl) {
+//wywo³ujemy automatyczne normalizowanie normalnych
+        gl.glEnable(GL.GL_NORMALIZE);
+        float x, y, kat;
+
+        gl.glBegin(GL.GL_TRIANGLE_FAN);
+
+        gl.glVertex3f(0.0f, 0.0f, -2.0f); //wierzcholek stozka
+        for (kat = 0.0f; kat < (2.0f * Math.PI); kat += (Math.PI / 32.0f)) {
+            x = (float) Math.sin(kat);
+            y = (float) Math.cos(kat);
+            gl.glNormal3f((float) Math.sin(kat), (float) Math.cos(kat), -2.0f);
+            gl.glVertex3f(x, y, 0.0f);
+        }
+        gl.glEnd();
+        gl.glBegin(GL.GL_TRIANGLE_FAN);
+
+        gl.glNormal3f(0.0f, 0.0f, 1.0f);
+        gl.glVertex3f(0.0f, 0.0f, 0.0f); //srodek kola
+        for (kat = 2.0f * (float) Math.PI; kat > 0.0f; kat -= (Math.PI / 32.0f)) {
+            x = (float) Math.sin(kat);
+            y = (float) Math.cos(kat);
+            gl.glVertex3f(x, y, 0.0f);
+
+        }
+        gl.glEnd();
+    }
+
+    public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
     }
 }
