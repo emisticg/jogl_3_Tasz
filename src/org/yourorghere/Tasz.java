@@ -150,11 +150,11 @@ public class Tasz implements GLEventListener {
             height = 1;
         }
         final float h = (float) width / (float) height;
-        gl.glViewport(0, 0, width, height);
+        gl.glViewport(0, 0, width/2, height/2);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
         //glu.gluPerspective(45.0f, h, 1.0, 20.0);
-      /*  float ilor;
+        float ilor;
         if (width <= height) {
             ilor = height / width;
             gl.glOrtho(-10.0f, 10.0f, -10.0f * ilor, 10.0f * ilor, -10.0f, 20.0f);
@@ -162,8 +162,8 @@ public class Tasz implements GLEventListener {
             ilor = width / height;
             gl.glOrtho(-10.0f * ilor, 10.0f * ilor, -10.0f, 10.0f, -10.0f, 20.0f);
         }
-        */
-        glu.gluPerspective(100.0f, h, 1.0, 20.0);
+        
+        
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
         
