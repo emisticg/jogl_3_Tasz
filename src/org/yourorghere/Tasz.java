@@ -153,9 +153,21 @@ public class Tasz implements GLEventListener {
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0f, h, 1.0, 20.0);
+        //glu.gluPerspective(45.0f, h, 1.0, 20.0);
+      /*  float ilor;
+        if (width <= height) {
+            ilor = height / width;
+            gl.glOrtho(-10.0f, 10.0f, -10.0f * ilor, 10.0f * ilor, -10.0f, 20.0f);
+        } else {
+            ilor = width / height;
+            gl.glOrtho(-10.0f * ilor, 10.0f * ilor, -10.0f, 10.0f, -10.0f, 20.0f);
+        }
+        */
+        glu.gluPerspective(100.0f, h, 1.0, 20.0);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
+        
+
     }
 
     private float[] WyznaczNormalna(float[] punkty, int ind1, int ind2, int ind3) {
@@ -183,6 +195,33 @@ public class Tasz implements GLEventListener {
         return norm;
     }
 
+    void choinka(GL gl) {
+        gl.glPushMatrix();
+        gl.glTranslatef(0.0f, 0.0f, -1.0f);
+        gl.glScalef(0.7f, 0.7f, 0.5f);
+        gl.glColor3f(0.0f, 0.4f, 0.1f);
+
+        stozek(gl);
+
+        gl.glTranslatef(0.0f, 0.0f, -1.1f);
+        gl.glScalef(0.7f, 0.7f, 0.5f);
+        gl.glColor3f(0.0f, 0.4f, 0.1f);
+
+        stozek(gl);
+
+        gl.glTranslatef(0.0f, 0.0f, -1.4f);
+        gl.glScalef(0.5f, 0.5f, 0.5f);
+        gl.glColor3f(0.0f, 0.4f, 0.1f);
+
+        stozek(gl);
+
+        gl.glTranslatef(0.0f, 0.0f, 13.0f);
+        gl.glColor3f(0.65f, 0.4f, 0.0f);
+        gl.glScalef(2.9f, 2.9f, 6.5f);
+        walec(gl);
+        gl.glPopMatrix();
+    }
+
     public void display(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, ambientLight, 0); //swiat³o otaczajšce
@@ -199,34 +238,17 @@ public class Tasz implements GLEventListener {
         gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f); //rotacja wokó? osi Y
         //Tu piszemy kod tworz?cy obiekty 3D
         // Flush all drawing operations to the graphics card
-        
-            
-            
-        
-            gl.glTranslatef(0.0f, 0.0f, -1.0f);
-            gl.glScalef(0.7f, 0.7f, 0.5f);
-            gl.glColor3f(0.0f, 0.4f, 0.1f);
-            
-        stozek(gl);
-        
-            gl.glTranslatef(0.0f, 0.0f, -1.1f);
-            gl.glScalef(0.7f, 0.7f, 0.5f);
-            gl.glColor3f(0.0f, 0.4f, 0.1f);
-            
-        stozek(gl);
-        
-            gl.glTranslatef(0.0f, 0.0f, -1.4f);
-            gl.glScalef(0.5f, 0.5f, 0.5f);
-            gl.glColor3f(0.0f, 0.4f, 0.1f);
-            
-        stozek(gl);
-            
-            gl.glTranslatef(0.0f, 0.0f, 13.0f);
-            gl.glColor3f(0.65f, 0.4f, 0.0f);
-            gl.glScalef(2.9f, 2.9f, 6.5f);
-        walec(gl);
-           
 
+        for (int i = 0; i < 10; i++) {
+            choinka(gl);
+            gl.glTranslatef(2.0f, 2.0f, 0.0f);
+        }
+
+        gl.glTranslatef(0.0f, 4.0f, 0.0f);
+        for (int i = 0; i < 10; i++) {
+            choinka(gl);
+            gl.glTranslatef(-2.0f, -2.0f, 0.0f);
+        }
         gl.glFlush();
     }
 
