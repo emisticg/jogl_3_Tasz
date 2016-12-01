@@ -273,6 +273,9 @@ public class Tasz implements GLEventListener {
          gl.glFlush();
          }
          */
+        
+        
+        /*
         gl.glBindTexture(GL.GL_TEXTURE_2D, t1.getTextureObject());
         gl.glBegin(GL.GL_TRIANGLES);
 //?ciana przednia 
@@ -354,6 +357,53 @@ public class Tasz implements GLEventListener {
         gl.glVertex3f(1.0f, -1.0f, -1.0f);
         gl.glTexCoord2f(1.0f, 0.0f);
         gl.glVertex3f(1.0f, -1.0f, 1.0f);
+        gl.glEnd();
+        */
+        
+        
+        
+        //ko?o
+        float x, y, kat, kat3;
+        
+        gl.glBegin(GL.GL_TRIANGLE_FAN);
+        gl.glColor3f(1.0f, 1.0f, 0.0f);
+        gl.glVertex3f(0.0f, 0.0f, 0.0f); //?rodek
+        for (kat = 0.0f; kat < (2.0f * Math.PI);
+                kat += (Math.PI / 32.0f)) {
+            x = 1.0f * (float) Math.sin(kat);
+            y = 1.0f * (float) Math.cos(kat);
+            gl.glNormal3f(x, y, 0.0f);
+            gl.glVertex3f(x, y, 0.0f); //kolejne punkty
+        }
+        gl.glEnd();
+
+        //kolo2
+        gl.glBegin(GL.GL_TRIANGLE_FAN);
+        gl.glColor3f(1.0f, 1.0f, 1.0f);
+        gl.glVertex3f(0.0f, 0.0f, 2.0f); //?rodek
+        for (kat = (float) (2.0f * Math.PI); kat > 0.0f;
+                kat -= (Math.PI / 32.0f)) {
+            x = 1.0f * (float) Math.sin(kat);
+            y = 1.0f * (float) Math.cos(kat);
+            gl.glNormal3f(x, y, 0.0f);
+            gl.glVertex3f(x, y, 2.0f); //kolejne punkty
+        }
+        gl.glEnd();
+
+        //walec
+        gl.glBindTexture(GL.GL_TEXTURE_2D, t2.getTextureObject());
+        gl.glBegin(GL.GL_QUAD_STRIP);
+        
+        for (kat3 = (float) (2.0f * Math.PI); kat3 > 0.0f;
+                kat3 -= (Math.PI / 32.0f)) {
+            x = 1.0f * (float) Math.sin(kat3);
+            y = 1.0f * (float) Math.cos(kat3);
+            gl.glNormal3f(x, y, 0.0f);
+            gl.glTexCoord2f(kat3/7, 0.0f);
+            gl.glVertex3f(x, y, 2.0f);
+            gl.glTexCoord2f(kat3/7, 1.0f);
+            gl.glVertex3f(x, y, 0.0f);
+        }
         gl.glEnd();
         gl.glFlush();
     }
