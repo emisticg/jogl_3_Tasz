@@ -59,16 +59,16 @@ public class Tasz implements GLEventListener {
         frame.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    xrot -= 3.0f;
+                    xrot -= 10.0f;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    xrot += 3.0f;
+                    xrot += 10.0f;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    yrot += 3.0f;
+                    yrot += 10.0f;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    yrot -= 3.0f;
+                    yrot -= 10.0f;
                 }
             }
 
@@ -177,13 +177,13 @@ public class Tasz implements GLEventListener {
 //?ciana przednia
 
         gl.glNormal3f(0.0f, 0.0f, 1.0f);
-        gl.glTexCoord2f(1.0f, 1.0f);
+        gl.glTexCoord2f(2.0f, 2.0f);
         gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-        gl.glTexCoord2f(0.0f, 1.0f);
+        gl.glTexCoord2f(0.0f, 2.0f);
         gl.glVertex3f(1.0f, -1.0f, 1.0f);
         gl.glTexCoord2f(0.0f, 0.0f);
         gl.glVertex3f(1.0f, 1.0f, 1.0f);
-        gl.glTexCoord2f(1.0f, 0.0f);
+        gl.glTexCoord2f(2.0f, 0.0f);
         gl.glVertex3f(-1.0f, 1.0f, 1.0f);
         
 //sciana tylnia
